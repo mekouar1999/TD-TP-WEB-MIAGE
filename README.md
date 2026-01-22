@@ -79,7 +79,7 @@ Créer un menu mobile qui apparaît depuis la droite avec une animation fluide.
 ### Comportement attendu :
 - Bouton toggle visible uniquement en mobile  
 - Sidebar cachée par défaut  
-- Clic sur le toggle → sidebar animée  
+- Clic sur le toggle → sidebar animée  5 elle sort de la gauche vers la droite ( est donc initialement cachée )
 - Design responsive (desktop / mobile)  
 
 📌 **Résultat attendu :**  
