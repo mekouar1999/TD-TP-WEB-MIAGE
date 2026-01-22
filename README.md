@@ -18,7 +18,9 @@
 - Comprendre l’architecture **client / serveur**
 - Créer une **API REST** avec **Node.js**
 - Communiquer entre **Frontend et Backend**
+- Déployer Front et Back sur vercel avec variables d'environnement
 - *(Option)* Utiliser une base de données **MongoDB**
+- Lier tout cela à les jeux vidéos dévellopé avec Babylone.js
 
 ---
 
