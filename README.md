@@ -1,220 +1,400 @@
-# 📘 TD / TP – APPLICATION WEB
+# Séance de TD — JavaScript Front-End & Back-End avec Node.js & Express
 
-## Rythme officiel du module (mis à jour)
+## Objectif global des TD
 
-🔗 **Lien de la maquette Figma**  
-👉 https://www.figma.com/design/40ZcAJUXkb1v2yLwFdJUhD/Portfolio--Community-
+Avant de commencer JavaScript et Node.js, une **remise à niveau en HTML et CSS** a volontairement été effectuée lors des TD et TP précédents.
 
----
+Cette décision pédagogique est essentielle :
 
-## 🧭 Objectif global du module
+* Il est **impossible de maîtriser JavaScript Front-End** sans comprendre le HTML, le CSS et la structure d’une page
+* La manipulation du **DOM** constitue la base même de JavaScript côté client
 
-À la fin du module, l’étudiant sera capable de :
+Ces bases étant désormais acquises, ce TD marque une **nouvelle étape** du module.
 
-- Concevoir une interface web avec **Figma**
-- Intégrer une maquette en **HTML / CSS**
-- Rendre un site interactif avec **JavaScript**
-- Stocker des données avec le **Local Storage**
-- Comprendre l’architecture **client / serveur**
-- Créer une **API REST** avec **Node.js**
-- Communiquer entre **Frontend et Backend**
-- Déployer Front et Back sur vercel avec variables d'environnement
-- *(Option)* Utiliser une base de données **MongoDB**
-- Lier tout cela à les jeux vidéos dévellopé avec Babylone.js
+À partir d’aujourd’hui (27 janvier) et jusqu’aux derniers TD du semestre, l’objectif est de :
+
+* Comprendre clairement la **différence entre JavaScript et Node.js**
+* Maîtriser JavaScript côté **client**
+* Apprendre JavaScript côté **serveur** avec Node.js
+* Construire progressivement une vraie logique **Full Stack**
+
+Ce TD s’inscrit dans une continuité : ce qui n’est pas terminé en TD sera repris et approfondi en TP, notamment lors du développement de l’application avec vos jeux que vous devriez réaliser et lier à votre app web pour votre projet final.
 
 ---
 
-## 🟦 PHASE 1 — FRONT-END : STRUCTURE & DESIGN  
-✅ **Déjà réalisé**
+## Organisation du TD
 
-### 🔹 TP 1 — HTML, CSS & Flexbox
-**Type : TP**  
-**Objectif : Bases du web**
+Ce TD marque le **début officiel du travail en JavaScript**, aussi bien côté client que côté serveur. 
 
-**Contenu :**
-- Structure HTML
-- Balises principales
-- CSS (sélecteurs, styles)
-- Mise en page avec Flexbox
-- Création d’une page web statique complète
+* **Démarrage** : 27 janvier ( pour le premier groupe le 27 (TD2) , et le 29 janvier pour le deuxieme groupe (TD1) 
+* **Objectif des TD** : comprendre au maximum, les bases et les concepts clés de JavaScript ( +++ ) côté Front-End et côté Back-End ( ++ )
 
-📌 **Résultat attendu :**  
-➡️ Site web structuré et stylé
+Les TD servent avant tout à :
 
----
+* introduire les notions
+* expliquer les concepts
+* comprendre la logique globale
 
-### 🔹 TP 2 — Maquette Figma
-**Type : TP**  
-**Objectif : Design UI**
+Lors des **TP**, ces notions seront naturellement **remises en pratique** à travers le développement d’applications et de projets concrets.
 
-**Contenu :**
-- Création d’un projet Figma
-- Conception d’un site (portfolio / community)
-- Organisation des sections
-- Réflexion UX / UI
+En développant une application réelle, vous utiliserez forcément :
 
-📌 **Résultat attendu :**  
-➡️ Maquette complète sur Figma (lien fourni)
+* JavaScript côté client
+* JavaScript côté serveur (Node.js)
+* une base de données ( Je vais vous montrer comment utiliser LocalStorage étant un stockage côté client et donc côté navigateur, et puis on fera rapidement du Mongodb/mongoose pour pouvoir stocker vos données dans une vraie base de donnée.
+
+Il est donc normal de ne pas tout maîtriser immédiatement en TD : la compréhension se consolide progressivement par la pratique en TP.
 
 ---
 
-## 🟨 PHASE 2 — INTERACTIVITÉ FRONT-END (JAVASCRIPT)
+# PARTIE 1 — JavaScript côté Client (Front-End)
 
-### 🔹 TP 3 — Introduction JavaScript
-**Type : TP**
+## 1️ Rappel : JavaScript dans le navigateur
 
-**Contenu :**
-- Rôle de JavaScript
-- Variables
-- Fonctions
-- Conditions
-- `console.log`
-- Lien JavaScript ↔ HTML
+JavaScript côté Front-End s’exécute **dans le navigateur**.
 
-📌 **Résultat attendu :**  
-➡️ Premiers scripts JavaScript fonctionnels
+Il permet de :
 
----
+* Manipuler le HTML (DOM)
+* Gérer les événements (click, submit, etc.)
+* Dynamiser l’interface utilisateur
 
-### 🔹 TP 4 — DOM & Événements
-**Type : TP**
+### Environnement Front-End
 
-**Contenu :**
-- DOM (Document Object Model)
-- Sélection des éléments :
-  - `getElementById`
-  - `querySelector`
-- Modification du contenu et du style
-- Gestion des événements :
-  - `click`
-  - `submit`
-
-📌 **Résultat attendu :**  
-➡️ Site web interactif
+* Navigateur
+* Accès au DOM
+* Accès à `window`, `document`
 
 ---
 
-### 🔹 TP 5 — Local Storage
-**Type : TP**
+## 2 Exemple simple JavaScript Front-End
 
-**Contenu :**
-- `localStorage.setItem`
-- `localStorage.getItem`
-- `localStorage.removeItem`
-- Sauvegarde de données issues de formulaires
-- Chargement automatique des données au rechargement de la page
+### HTML
 
-📌 **Résultat attendu :**  
-➡️ Données persistantes côté navigateur
+```html
+<button id="btn">Clique-moi</button>
+<p id="result"></p>
+```
 
----
+### JavaScript
 
-## 🔵 PHASE 3 — TD : COMPRÉHENSION & ARCHITECTURE
-
-### 🔹 TD 1 — Architecture Web & HTTP
-**Type : TD**
-
-**Contenu :**
-- Frontend vs Backend
-- Architecture Client / Serveur
-- Protocole HTTP
-- Méthodes GET / POST
-- Format JSON
-- Pourquoi utiliser une API ?
-
-📌 **Objectif pédagogique :**  
-➡️ Comprendre le fonctionnement d’une application web moderne
+```js
+document.getElementById("btn").addEventListener("click", () => {
+  document.getElementById("result").textContent = "JavaScript côté client 🚀";
+});
+```
 
 ---
 
-### 🔹 TD 2 — API REST & Données
-**Type : TD**
+##  Exercices Front-End — DOM & Events
 
-**Contenu :**
-- Principe d’une API REST
-- Notion de routes
-- Sécurité (bases)
-- Limites du Local Storage
-- Introduction aux bases de données
-
-📌 **Objectif pédagogique :**  
-➡️ Préparer les étudiants au backend
+Les exercices suivants sont conçus pour explorer **l’ensemble des événements JavaScript importants côté client** et comprendre comment interagir avec le DOM de manière dynamique.
 
 ---
 
-## 🟥 PHASE 4 — BACKEND AVEC NODE.JS
+### Exercice 1 — Interaction simple (click)
 
-### 🔹 TP 6 — Introduction à Node.js
-**Type : TP**
+Créer une `div` visible à l’écran.
 
-**Contenu :**
-- Qu’est-ce que Node.js
-- Utilisation de npm
-- Création d’un serveur backend
-- Structure d’un fichier `server.js`
+Comportement attendu :
 
-📌 **Résultat attendu :**  
-➡️ Serveur backend fonctionnel
+* Au clic sur la div, sa couleur de fond change
+* À chaque clic, une couleur différente est appliquée
 
----
+Notions travaillées :
 
-### 🔹 TP 7 — Express & API REST
-**Type : TP**
-
-**Contenu :**
-- Framework Express.js
-- Création de routes API :
-  - GET
-  - POST
-- Manipulation de JSON
-- Tests avec Postman
-
-📌 **Résultat attendu :**  
-➡️ API REST simple et fonctionnelle
+* `addEventListener('click')`
+* manipulation du style via JavaScript
 
 ---
 
-### 🔹 TP 8 — Communication Frontend ↔ Backend
-**Type : TP**
+### Exercice 2 — Suivi de la souris (mousemove)
 
-**Contenu :**
-- Utilisation de `fetch()` côté frontend
-- Envoi de données vers l’API
-- Récupération de données depuis l’API
-- Affichage dynamique des données
+Créer une zone d’affichage qui indique en temps réel :
 
-📌 **Résultat attendu :**  
-➡️ Application Frontend et Backend connectée
+* la position X de la souris
+* la position Y de la souris
 
----
+Bonus : déplacer un petit élément visuel en fonction de la position de la souris.
 
-## 🟪 PHASE 5 — BASE DE DONNÉES *(Option / si le temps le permet)*
+Notions travaillées :
 
-### 🔹 TP 9 — MongoDB
-**Type : TP**
-
-**Contenu :**
-- MongoDB Atlas
-- Notions de collections et documents
-- Utilisation de Mongoose
-- CRUD :
-  - Create
-  - Read
-  - Update
-  - Delete
-
-📌 **Résultat attendu :**  
-➡️ Application Full Stack complète
+* `mousemove`
+* objet `event`
+* interaction temps réel
 
 ---
 
-## 🏁 FIN DU MODULE — PROJET FINAL
+### Exercice 3 — Réaction au scroll (scroll)
 
-### 🎯 Sujet du projet final
+Créer une page suffisamment longue pour permettre le scroll.
 
-Développer une application web complète comprenant :
+Comportement attendu :
 
-- Frontend : HTML / CSS / JavaScript
-- Backend : Node.js / Express
-- API REST
-- *(Option)* Base de données MongoDB
+* Lorsque l’utilisateur scroll :
+
+  * changer la couleur du header
+  * afficher un message indiquant le niveau de scroll
+
+Notions travaillées :
+
+* `scroll`
+* `window.scrollY`
+
+---
+
+### Exercice 4 — Formulaire et submit
+
+Créer un formulaire avec :
+
+* un champ texte
+* un bouton de validation
+
+Comportement attendu :
+
+* empêcher le rechargement de la page
+* afficher la valeur saisie sous le formulaire
+* afficher un message d’erreur si le champ est vide
+
+Notions travaillées :
+
+* `submit`
+* `preventDefault()`
+* validation simple
+
+---
+
+### Exercice 5 — Mini calculatrice interactive
+
+Créer une mini calculatrice avec :
+
+* deux champs numériques
+* des boutons `+`, `-`, `×`, `/`
+* une zone d’affichage du résultat
+
+Contraintes :
+
+* vérifier que les champs ne sont pas vides
+* gérer les erreurs (division par zéro)
+
+Notions travaillées :
+
+* logique JavaScript
+* récupération des valeurs
+* événements multiples
+
+📌 Objectif global : maîtriser les événements JavaScript (`click`, `mousemove`, `scroll`, `submit`) et la manipulation avancée du DOM.
+
+---
+
+# 🟨 PARTIE 2 — JavaScript côté Serveur (Back-End)
+
+## 3 Introduction à Node.js
+
+Node.js permet d’exécuter JavaScript **en dehors du navigateur**, sur un **serveur**.
+
+### Différences fondamentales
+
+| JavaScript Front-End | JavaScript Back-End |
+| -------------------- | ------------------- |
+| Navigateur           | Serveur             |
+| DOM                  | ❌                   |
+| UI / UX              | Logique métier      |
+| HTML / CSS           | API / Données       |
+
+---
+
+## 4 Premier script Node.js
+
+### server.js
+
+```js
+console.log("JavaScript côté serveur 🚀");
+```
+
+```bash
+node server.js
+```
+
+---
+
+## 5 Modules en Node.js
+
+### math.js
+
+```js
+function addition(a, b) {
+  return a + b;
+}
+
+function soustraction(a, b) {
+  return a - b;
+}
+
+module.exports = {
+  addition,
+  soustraction
+};
+```
+
+### server.js
+
+```js
+const math = require("./math");
+
+console.log(math.addition(4, 6));
+```
+
+📌 Notions importantes :
+
+* `require`
+* `module.exports`
+* séparation du code
+
+---
+
+# 🟦 PARTIE 3 — Express.js & Serveur Web
+
+## 6 Pourquoi Express.js ?
+
+* Simplifie Node.js
+* Gestion claire des routes
+* Standard professionnel
+
+---
+
+## 7 Initialisation d’un projet Express
+
+```bash
+npm init -y
+npm install express
+```
+
+### server.js
+
+```js
+const express = require("express");
+const app = express();
+
+app.get("/", (req, res) => {
+  res.send("Hello Express 👋");
+});
+
+app.listen(3000, () => {
+  console.log("Server running on http://localhost:3000");
+});
+```
+
+---
+
+## 8 Les routes avec Express
+
+### Route GET
+
+```js
+app.get("/api/users", (req, res) => {
+  res.json([
+    { id: 1, name: "Alice" },
+    { id: 2, name: "Bob" }
+  ]);
+});
+```
+
+### Paramètres de route
+
+```js
+app.get("/api/users/:id", (req, res) => {
+  res.send(req.params.id);
+});
+```
+
+---
+
+## 9 Middleware & POST
+
+```js
+app.use(express.json());
+
+app.post("/api/users", (req, res) => {
+  res.json({
+    message: "Utilisateur reçu",
+    data: req.body
+  });
+});
+```
+
+---
+
+# 🟪 PARTIE 4 — Librairies essentielles Node.js
+
+* **express** → serveur web
+* **nodemon** → redémarrage automatique
+* **cors** → communication front/back
+* **dotenv** → variables d’environnement
+* **mongoose** → MongoDB (plus tard)
+
+Installation nodemon :
+
+```bash
+npm install -D nodemon
+```
+
+---
+
+# 🟥 PARTIE 5 — Architecture & Modèle MVC
+
+## 10 Pourquoi structurer son backend ?
+
+Objectifs :
+
+* Lisibilité
+* Scalabilité
+* Maintenance
+
+---
+
+## 11 Modèle MVC (simplifié)
+
+* **Model** : gestion des données
+* **Controller** : logique métier
+* **Routes** : points d’entrée API
+
+### Exemple de structure
+
+```
+backend/
+├── controllers/
+├── routes/
+├── models/
+├── server.js
+```
+
+---
+
+# 🟩 PARTIE 6 — Lien Front-End ↔ Back-End
+
+## 12 fetch() côté Front-End
+
+```js
+fetch("http://localhost:3000/api/users")
+  .then(res => res.json())
+  .then(data => console.log(data));
+```
+
+📌 Principe fondamental :
+
+> Le Front consomme une API, le Back fournit des données.
+
+---
+
+# 🏁 Conclusion et vision du module
+
+Ce TD n’est pas un exercice isolé.
+Il constitue la **base technique pour le rendu finale de votre app web avec vos jeux vidéos **  .
+
+Les compétences vues ici seront directement réutilisées dans :
+
+* le développement de votre **application web avec vos jeux vidéos 2 ou 3 à voir avec M.BUFFA **
+
+ # Othman MEKOUAR - Chargé de TD/TP du module Application WEB - MIAGE 
+
