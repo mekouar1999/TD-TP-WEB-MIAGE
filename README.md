@@ -193,4 +193,4 @@ cd backend
 npx nodemon server.js
 ```
 
-### Maitenant que votre back est lié avec votre back, retournez finir vos jeux !
+### Maitenant que votre front est lié avec votre back, retournez finir vos jeux !
