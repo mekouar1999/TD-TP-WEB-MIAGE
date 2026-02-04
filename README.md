@@ -1,220 +1,196 @@
-# 📘 TD / TP – APPLICATION WEB
 
-## Rythme officiel du module (mis à jour)
+# Node ( Séance du Mercredi 5 ( Dernier TD )
 
-🔗 **Lien de la maquette Figma**  
-👉 https://www.figma.com/design/40ZcAJUXkb1v2yLwFdJUhD/Portfolio--Community-
+Node.js et JavaScript ne sont PAS la même chose.
 
----
+JavaScript est un langage de programmation.
+À l’origine, il s’exécute uniquement dans le navigateur (Chrome, Firefox, etc.).
+Il sert à manipuler le HTML, le CSS, gérer les clics, formulaires et animations.
 
-## 🧭 Objectif global du module
+Node.js est un environnement d’exécution de JavaScript côté serveur.
+Il permet d’exécuter du JavaScript en dehors du navigateur, sur un serveur.
 
-À la fin du module, l’étudiant sera capable de :
+Avec Node.js, JavaScript peut :
+- Créer un serveur web
+- Accéder aux fichiers du système
+- Se connecter à une base de données
+- Créer des API
+- Gérer des utilisateurs, des scores, des paiements
 
-- Concevoir une interface web avec **Figma**
-- Intégrer une maquette en **HTML / CSS**
-- Rendre un site interactif avec **JavaScript**
-- Stocker des données avec le **Local Storage**
-- Comprendre l’architecture **client / serveur**
-- Créer une **API REST** avec **Node.js**
-- Communiquer entre **Frontend et Backend**
-- Déployer Front et Back sur vercel avec variables d'environnement
-- *(Option)* Utiliser une base de données **MongoDB**
-- Lier tout cela à les jeux vidéos dévellopé avec Babylone.js
+Pourquoi utiliser Node.js :
+- Un seul langage pour le frontend et le backend
+- Très rapide (asynchrone, non bloquant)
+- Très utilisé dans le web moderne
+- Parfait pour les API, jeux, temps réel
+- Immense écosystème via npm
 
----
+Node.js fonctionne avec :
+- Express : création simple de serveurs et API
+- MongoDB : base de données NoSQL très utilisée avec Node.js
+- JSON : format d’échange des données
 
-## 🟦 PHASE 1 — FRONT-END : STRUCTURE & DESIGN  
-✅ **Déjà réalisé**
+Dans ce projet :
+- Le frontend envoie un score
+- Le backend Node.js reçoit ce score via une API
+- MongoDB stocke le score
+- Le backend renvoie les scores au frontend
 
-### 🔹 TP 1 — HTML, CSS & Flexbox
-**Type : TP**  
-**Objectif : Bases du web**
+Objectif pédagogique :
+Maîtriser les bases de Node.js :
+- créer un serveur
+- créer une API REST
+- comprendre les requêtes HTTP
+- connecter une base de données
+- relier frontend et backend
 
-**Contenu :**
-- Structure HTML
-- Balises principales
-- CSS (sélecteurs, styles)
-- Mise en page avec Flexbox
-- Création d’une page web statique complète
+```text
+game-scores-app/
+├── backend/
+│   ├── server.js
+│   ├── package.json
+│   ├── .env
+│   ├── config/
+│   │   └── db.js
+│   ├── models/
+│   │   └── Score.js
+│   └── routes/
+│       └── score.routes.js
+│
+└── frontend/
+    ├── index.html
+    ├── style.css
+    └── game.js
+```
 
-📌 **Résultat attendu :**  
-➡️ Site web structuré et stylé
+```bash
+cd backend
+npm init -y
+npm install express mongoose dotenv
+npm install nodemon --save-dev
+```
 
----
+```env
+PORT=5000
+MONGO_URI=mongodb+srv://username:password@cluster.mongodb.net/game-scores
+```
 
-### 🔹 TP 2 — Maquette Figma
-**Type : TP**  
-**Objectif : Design UI**
+```js
+const express = require("express");
+const dotenv = require("dotenv");
+const connectDB = require("./config/db");
 
-**Contenu :**
-- Création d’un projet Figma
-- Conception d’un site (portfolio / community)
-- Organisation des sections
-- Réflexion UX / UI
+dotenv.config();
+connectDB();
 
-📌 **Résultat attendu :**  
-➡️ Maquette complète sur Figma (lien fourni)
+const app = express();
+app.use(express.json());
 
----
+app.use("/api/scores", require("./routes/score.routes"));
 
-## 🟨 PHASE 2 — INTERACTIVITÉ FRONT-END (JAVASCRIPT)
+app.listen(process.env.PORT || 5000);
+```
 
-### 🔹 TP 3 — Introduction JavaScript
-**Type : TP**
+```js
+const mongoose = require("mongoose");
 
-**Contenu :**
-- Rôle de JavaScript
-- Variables
-- Fonctions
-- Conditions
-- `console.log`
-- Lien JavaScript ↔ HTML
+module.exports = async () => {
+  await mongoose.connect(process.env.MONGO_URI);
+};
+```
 
-📌 **Résultat attendu :**  
-➡️ Premiers scripts JavaScript fonctionnels
+```js
+const mongoose = require("mongoose");
 
----
+module.exports = mongoose.model(
+  "Score",
+  new mongoose.Schema(
+    { playerName: String, score: Number },
+    { timestamps: true }
+  )
+);
+```
 
-### 🔹 TP 4 — DOM & Événements
-**Type : TP**
+```js
+const router = require("express").Router();
+const Score = require("../models/Score");
 
-**Contenu :**
-- DOM (Document Object Model)
-- Sélection des éléments :
-  - `getElementById`
-  - `querySelector`
-- Modification du contenu et du style
-- Gestion des événements :
-  - `click`
-  - `submit`
+router.post("/", async (req, res) => {
+  const score = await Score.create(req.body);
+  res.status(201).json(score);
+});
 
-📌 **Résultat attendu :**  
-➡️ Site web interactif
+router.get("/", async (req, res) => {
+  const scores = await Score.find().sort({ score: -1 }).limit(10);
+  res.json(scores);
+});
 
----
+module.exports = router;
+```
 
-### 🔹 TP 5 — Local Storage
-**Type : TP**
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Game</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-**Contenu :**
-- `localStorage.setItem`
-- `localStorage.getItem`
-- `localStorage.removeItem`
-- Sauvegarde de données issues de formulaires
-- Chargement automatique des données au rechargement de la page
+<form id="scoreForm">
+  <input id="playerName" placeholder="Nom" required>
+  <input id="score" type="number" placeholder="Score" required>
+  <button>Envoyer</button>
+</form>
 
-📌 **Résultat attendu :**  
-➡️ Données persistantes côté navigateur
+<ul id="scores"></ul>
 
----
+<script src="game.js"></script>
+</body>
+</html>
+```
 
-## 🔵 PHASE 3 — TD : COMPRÉHENSION & ARCHITECTURE
+```css
+body {
+  font-family: Arial;
+  padding: 40px;
+}
+```
 
-### 🔹 TD 1 — Architecture Web & HTTP
-**Type : TD**
+```js
+const form = document.getElementById("scoreForm");
+const list = document.getElementById("scores");
 
-**Contenu :**
-- Frontend vs Backend
-- Architecture Client / Serveur
-- Protocole HTTP
-- Méthodes GET / POST
-- Format JSON
-- Pourquoi utiliser une API ?
+fetch("http://localhost:5000/api/scores")
+  .then(r => r.json())
+  .then(scores => {
+    list.innerHTML = "";
+    scores.forEach(s => {
+      const li = document.createElement("li");
+      li.textContent = `${s.playerName} : ${s.score}`;
+      list.appendChild(li);
+    });
+  });
 
-📌 **Objectif pédagogique :**  
-➡️ Comprendre le fonctionnement d’une application web moderne
+form.addEventListener("submit", async e => {
+  e.preventDefault();
 
----
+  await fetch("http://localhost:5000/api/scores", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      playerName: playerName.value,
+      score: score.value
+    })
+  });
 
-### 🔹 TD 2 — API REST & Données
-**Type : TD**
+  location.reload();
+});
+```
 
-**Contenu :**
-- Principe d’une API REST
-- Notion de routes
-- Sécurité (bases)
-- Limites du Local Storage
-- Introduction aux bases de données
+```bash
+cd backend
+npx nodemon server.js
+```
 
-📌 **Objectif pédagogique :**  
-➡️ Préparer les étudiants au backend
-
----
-
-## 🟥 PHASE 4 — BACKEND AVEC NODE.JS
-
-### 🔹 TP 6 — Introduction à Node.js
-**Type : TP**
-
-**Contenu :**
-- Qu’est-ce que Node.js
-- Utilisation de npm
-- Création d’un serveur backend
-- Structure d’un fichier `server.js`
-
-📌 **Résultat attendu :**  
-➡️ Serveur backend fonctionnel
-
----
-
-### 🔹 TP 7 — Express & API REST
-**Type : TP**
-
-**Contenu :**
-- Framework Express.js
-- Création de routes API :
-  - GET
-  - POST
-- Manipulation de JSON
-- Tests avec Postman
-
-📌 **Résultat attendu :**  
-➡️ API REST simple et fonctionnelle
-
----
-
-### 🔹 TP 8 — Communication Frontend ↔ Backend
-**Type : TP**
-
-**Contenu :**
-- Utilisation de `fetch()` côté frontend
-- Envoi de données vers l’API
-- Récupération de données depuis l’API
-- Affichage dynamique des données
-
-📌 **Résultat attendu :**  
-➡️ Application Frontend et Backend connectée
-
----
-
-## 🟪 PHASE 5 — BASE DE DONNÉES *(Option / si le temps le permet)*
-
-### 🔹 TP 9 — MongoDB
-**Type : TP**
-
-**Contenu :**
-- MongoDB Atlas
-- Notions de collections et documents
-- Utilisation de Mongoose
-- CRUD :
-  - Create
-  - Read
-  - Update
-  - Delete
-
-📌 **Résultat attendu :**  
-➡️ Application Full Stack complète
-
----
-
-## 🏁 FIN DU MODULE — PROJET FINAL
-
-### 🎯 Sujet du projet final
-
-Développer une application web complète comprenant :
-
-- Frontend : HTML / CSS / JavaScript
-- Backend : Node.js / Express
-- API REST
-- *(Option)* Base de données MongoDB
+### Maitenant que votre back est lié avec votre back, retournez finir vos jeux !
